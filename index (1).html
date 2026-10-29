@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1><i class="fa-solid fa-book-bookmark" style="margin-right: 0.5rem;"></i>Library System</h1>
+        <button onclick="openBookModal()" class="btn-add"><i class="fa-solid fa-plus"></i> Add Book</button>
+    </header>
+
+    <nav>
+        <button onclick="switchTab('cat')" id="tab-cat-btn" class="tab-btn active">Catalogue</button>
+        <button onclick="switchTab('tx')" id="tab-tx-btn" class="tab-btn">Issued Books</button>
+    </nav>
+
+    <main>
+        <div id="cat-section" class="section">
+            <div class="filters">
+                <input type="text" id="search" oninput="render()" placeholder="Search title, author, ISBN...">
+                <select id="catFilter" onchange="render()"><option value="">All Categories</option></select>
+                <select id="availabilityFilter" onchange="render()">
+                    <option value="">All Status</option>
+                    <option value="yes">Available</option>
+                    <option value="no">Out of Stock</option>
+                </select>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title &amp; Author</th>
+                            <th>ISBN</th>
+                            <th>Category</th>
+                            <th style="text-align: center;">Total / Avail</th>
+                            <th style="text-align: right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="tx-section" class="section hidden">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Book Title</th>
+                            <th>Borrower</th>
+                            <th>Dates (Issue / Due)</th>
+                            <th style="text-align: center;">Status</th>
+                            <th style="text-align: right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="txTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div id="bookModalEl" class="modal-overlay hidden">
+        <form onsubmit="saveBook(event)" class="modal-box">
+            <h2 id="modalTitle">Add Book</h2>
+            <input type="hidden" id="bookId">
+            <input type="text" id="bTitle" placeholder="Book Title *" required>
+            <input type="text" id="bAuthor" placeholder="Author *" required>
+            <input type="text" id="bIsbn" placeholder="ISBN *" required>
+            <input type="text" id="bCategory" placeholder="Category *" required>
+            <input type="number" id="bQty" placeholder="Total Quantity *" min="1" required>
+            <div class="modal-buttons">
+                <button type="button" onclick="closeBookModal()" class="btn-cancel">Cancel</button>
+                <button type="submit" class="btn-save">Save</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="issueModalEl" class="modal-overlay hidden">
+        <form onsubmit="saveIssue(event)" class="modal-box">
+            <h2>Issue Book</h2>
+            <input type="hidden" id="issueBookId">
+            <input type="text" id="borrower" placeholder="Borrower Name *" required>
+            <div>
+                <label style="font-size: 0.75rem; color: #64748b;">Due Date</label>
+                <input type="date" id="dueDate" required>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" onclick="closeIssueModal()" class="btn-cancel">Cancel</button>
+                <button type="submit" class="btn-save">Confirm</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
